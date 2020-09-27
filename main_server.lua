@@ -146,7 +146,7 @@ addEventHandler("onPlayerJoin", root,
 
 addEventHandler("onPlayerQuit", root,
 	function(quitType)
-        local clan = source:getClan()
+        	local clan = source:getClan()
         
 		if clan == clanwar.home or clan == clanwar.enemy then
 			clanwar.referees:outputMessage(source:getName() .. " #FFFFFFleft the game #FF8900(" .. quitType .. ")")
