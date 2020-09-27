@@ -10,6 +10,6 @@ P.S: It's based on OOP **(Object-oriented programming)**, so, at least you shoul
 
 You will find a folder called **Classes**, all classes are included in there.
 
-### Example of Use
+### Usage
 
 I made a little file called **main_server.lua**. You should find a few examples in there. And the rest is on you!
