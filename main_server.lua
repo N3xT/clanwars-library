@@ -126,3 +126,56 @@ clanwar.commands["setClanColor"] = function(player, command, id, hex)
 
     clanwar.core:outputMessage(player:getName() .. " #FFFFFFchanged " .. oldHex .. clan:getName() .. " #FFFFFFcolor to " .. clan:getName())
 end
+
+addEventHandler("onResourceStart", resourceRoot,
+    function()        
+        for _, player in pairs(Element.getAllByType("player")) do
+            local core = clanwar.core
+            local referee = player:hasRights(core.groups)
+
+            player:setClan(referee and clanwar.referees or clanwar.spectators)
+        end
+    end
+)
+
+addEventHandler("onPlayerJoin", root,
+    function()
+        source:setClan(clanwar.spectators)
+    end
+)
+
+addEventHandler("onPlayerQuit", root,
+	function(quitType)
+        local clan = source:getClan()
+        
+		if clan == clanwar.home or clan == clanwar.enemy then
+			clanwar.referees:outputMessage(source:getName() .. " #FFFFFFleft the game #FF8900(" .. quitType .. ")")
+		end
+	end
+)
+
+addEventHandler("onPlayerLogin", root,
+    function()
+        if not source:hasRights(clanwar.core.groups) then
+            return false
+        end
+
+        local clan = source:getClan()
+
+        if clan == clanwar.home or clan == clanwar.enemy then
+            return
+        end
+
+        source:setClan(clanwar.referees)
+        clanwar.referees:outputMessage(source:getName() .. " #FFFFFFjoined " .. clanwar.referees:getName())
+    end
+)
+
+addEventHandler("onPlayerLogout", root,
+    function()
+        if source:getClan() == clanwar.referees then
+            source:setClan(clanwar.spectators)
+            clanwar.referees:outputMessage(source:getName() .. " #FFFFFFlogged out")
+        end
+    end
+)
